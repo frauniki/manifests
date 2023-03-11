@@ -1,0 +1,19 @@
+kind: Probe
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: icmp-heathcheck
+  namespace: kube-prometheus-stack
+  labels:
+    release: kube-prometheus-stack
+spec:
+  interval: 5s
+  module: icmp
+  prober:
+    url: prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - 8.8.8.8
+        - 8.8.4.4
+        - 1.1.1.1
+        - 1.0.0.1

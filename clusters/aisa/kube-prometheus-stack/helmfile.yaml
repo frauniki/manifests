@@ -9,3 +9,6 @@ releases:
     version: 39.8.0
     values:
       - values.yaml
+  - name: custom-resources
+    forceNamespace: kube-prometheus-stack
+    chart: ./resources

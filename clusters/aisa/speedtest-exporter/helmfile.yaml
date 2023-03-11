@@ -7,3 +7,6 @@ releases:
     namespace: speedtest-exporter
     chart: portefaix/speedtest-exporter
     version: 0.5.0
+  - name: custom-resources
+    forceNamespace: speedtest-exporter
+    chart: ./resources
