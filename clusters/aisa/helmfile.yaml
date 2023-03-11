@@ -1,0 +1,4 @@
+releases:
+  - name: applications
+    namespace: argocd
+    chart: ./applications

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: applications
+  namespace: argocd
+spec:
+  project: sinoa
+  source:
+    repoURL: https://github.com/frauniki/manifests
+    targetRevision: HEAD
+    path: clusters/aisa
+    plugin:
+      name: helmfile
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
+  syncPolicy:
+    automated: {}
