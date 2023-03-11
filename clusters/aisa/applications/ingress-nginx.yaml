@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+spec:
+  project: sinoa
+  source:
+    repoURL: https://github.com/frauniki/manifests
+    targetRevision: HEAD
+    path: clusters/aisa/ingress-nginx
+    plugin:
+      name: helmfile
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ingress-nginx
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
