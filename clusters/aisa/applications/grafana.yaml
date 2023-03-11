@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sealed-secrets
+  name: grafana
   namespace: argocd
 spec:
   project: sinoa
   source:
     repoURL: https://github.com/frauniki/manifests
     targetRevision: HEAD
-    path: clusters/aisa/sealed-secrets
+    path: clusters/aisa/grafana
     plugin:
       name: helmfile
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: sealed-secrets
+    namespace: grafana
   syncPolicy:
     automated: {}
     syncOptions:
