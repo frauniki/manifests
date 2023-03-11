@@ -1,0 +1,9 @@
+repositories:
+  - name: portefaix
+    url: https://charts.portefaix.xyz/
+
+releases:
+  - name: speedtest-exporter
+    namespace: speedtest-exporter
+    chart: portefaix/speedtest-exporter
+    version: 0.5.0
