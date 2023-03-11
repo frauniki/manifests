@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-blackbox-exporter
+  namespace: argocd
+spec:
+  project: sinoa
+  source:
+    repoURL: https://github.com/frauniki/manifests
+    targetRevision: HEAD
+    path: clusters/aisa/prometheus-blackbox-exporter
+    plugin:
+      name: helmfile
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: blackbox-exporter
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
