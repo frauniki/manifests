@@ -3,12 +3,11 @@ repositories:
     url: https://charts.jetstack.io
 
 releases:
+  - name: crd
+    chart: ./crds
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
-    set:
-      - name: rbac.create
-        value: true
   - name: custom-resource
     namespace: cert-manager
     chart: ./resources
