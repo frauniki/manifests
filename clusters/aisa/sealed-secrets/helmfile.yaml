@@ -1,0 +1,8 @@
+repositories:
+  - name: sealed-secrets
+    url: https://bitnami-labs.github.io/sealed-secrets
+
+releases:
+  - name: sealed-secrets
+    namespace: sealed-secrets
+    chart: sealed-secrets/sealed-secrets
