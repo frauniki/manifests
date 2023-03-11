@@ -1,0 +1,22 @@
+imageRenderer:
+  enabled: true
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - grafana.sinoa.jp
+  tls:
+    - hosts:
+        - grafana.sinoa.jp
+      secretName: letsencrypt-cert
+
+grafana.ini:
+  session:
+    provider: mysql
+
+envFromSecrets:
+  - name: grafana-env
