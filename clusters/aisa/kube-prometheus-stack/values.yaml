@@ -31,3 +31,7 @@ alertmanager:
 
 grafana:
   enabled: false
+
+prometheusOperator:
+  admissionWebhooks:
+    failurePolicy: Ignore
