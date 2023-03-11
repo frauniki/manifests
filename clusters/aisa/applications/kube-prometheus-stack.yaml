@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: sinoa
+  source:
+    repoURL: https://github.com/frauniki/manifests
+    targetRevision: HEAD
+    path: clusters/aisa/kube-prometheus-stack
+    plugin:
+      name: helmfile
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kube-prometheus-stack
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

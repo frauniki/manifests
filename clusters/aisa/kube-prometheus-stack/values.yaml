@@ -1,0 +1,33 @@
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+    hosts:
+      - prometheus.sinoa.jp
+    tls:
+      - hosts:
+          - prometheus.sinoa.jp
+        secretName: letsencrypt-prometheus-cert
+
+  prometheusSpec:
+    retention: 90d
+
+alertmanager:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+    hosts:
+      - alertmanager.sinoa.jp
+    tls:
+      - hosts:
+          - alertmanager.sinoa.jp
+        secretName: letsencrypt-alertmanager-cert
+
+grafana:
+  enabled: false
