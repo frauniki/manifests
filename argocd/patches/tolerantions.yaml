@@ -1,0 +1,12 @@
+# GVK and metadata.name fields is dummy
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: NONE
+spec:
+  template:
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: "Exists"
+          effect: "NoSchedule"

@@ -1,0 +1,22 @@
+namespace: argocd
+
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.9/manifests/ha/install.yaml
+
+patches:
+  - path: patches/argocd-repo-server.yaml
+  - path: patches/argocd-cm.yaml
+
+  # Workaround patches
+  - target:
+      kind: Deployment
+      name: argocd-server
+    path: patches/tolerantions.yaml
+  - target:
+      kind: Deployment
+      name: argocd-repo-server
+    path: patches/tolerantions.yaml
+  - target:
+      kind: ReplicaSet
+      name: argocd-redis-ha-haproxy
+    path: patches/tolerantions.yaml
