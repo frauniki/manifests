@@ -1,0 +1,42 @@
+repositories:
+  - name: k8s-at-home
+    url: https://k8s-at-home.com/charts/
+
+releases:
+  - name: unifi-controller
+    namespace: unifi
+    forceNamespace: unifi
+    chart: k8s-at-home/unifi
+    values:
+      - values.yaml
+    strategicMergePatches:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: unifi-controller
+          namespace: unifi
+        spec:
+          template:
+            spec:
+              containers:
+                - name: unifi-controller
+                  volumeMounts:
+                    - name: unifi-switch-config
+                      mountPath: /unifi/data/sites/h59iqti5 # /unifi/data/sites/<SITE_ID>
+                    - name: system-config
+                      mountPath: /unifi/data/system.properties
+                      subPath: system.properties
+              volumes:
+                - name: unifi-switch-config
+                  configMap:
+                    name: unifi-switch-config
+                - name: system-config
+                  configMap:
+                    name: system-config
+                    items:
+                      - key: system.properties
+                        path: system.properties
+  - name: custom-resources
+    namespace: unifi
+    forceNamespace: unifi
+    chart: ./resources

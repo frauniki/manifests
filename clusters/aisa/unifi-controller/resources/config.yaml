@@ -1,0 +1,215 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unifi-switch-config
+  namespace: unifi
+data:
+  config.gateway.json: |
+    {
+      "firewall": {
+        "group": {
+          "network-group": {
+            "corporate_network": {
+              "network": [
+                "10.0.0.0/8"
+              ]
+            }
+          },
+          "port-group": {
+            "minecraft": {
+              "port": [
+                "25565"
+              ]
+            },
+            "ark": {
+              "port": [
+                "7777",
+                "7778"
+              ]
+            }
+          }
+        },
+        "modify": {
+          "PPPOE-OUT": {
+            "rule": {
+              "1": {
+                "action": "modify",
+                "modify": {
+                  "tcp-mss": "1414"
+                },
+                "protocol": "tcp",
+                "tcp": {
+                  "flags": "SYN"
+                }
+              }
+            }
+          }
+        },
+        "options": {
+          "mss-clamp": {
+            "interface-type": [
+              "pppoe"
+            ],
+            "mss": "1414"
+          }
+        }
+      },
+      "interfaces": {
+        "ethernet": {
+          "eth0": {
+            "pppoe": {
+              "0": {
+                "firewall": {
+                  "out": {
+                    "modify": "PPPOE-OUT"
+                  }
+                },
+                "mtu": "1454"
+              }
+            }
+          }
+        },
+        "loopback": {
+          "lo": {
+            "address": [
+              "10.0.0.1/32"
+            ]
+          }
+        }
+      },
+      "protocols": {
+        "ospf": {
+          "area": {
+            "0": {
+              "network": [
+                "10.0.0.1/32",
+                "10.0.1.0/30",
+                "10.0.1.4/30"
+              ]
+            }
+          },
+          "default-information": {
+            "originate": {
+              "always": "''",
+              "metric-type": "2"
+            }
+          },
+          "parameters": {
+            "abr-type": "cisco",
+            "router-id": "10.0.0.1"
+          },
+          "redistribute": {
+            "static": {
+              "metric-type": "2"
+            }
+          }
+        }
+      },
+      "port-forward": {
+        "auto-firewall": "enable"
+      },
+      "service": {
+        "nat": {
+          "rule": {
+            "7001": {
+              "description": "minecraft hairpin SNAT",
+              "destination": {
+                "address": "10.2.0.66",
+                "group": {
+                  "port-group": "minecraft"
+                }
+              },
+              "outbound-interface": "eth1",
+              "protocol": "tcp",
+              "source": {
+                "group": {
+                  "network-group": "corporate_network"
+                }
+              },
+              "type": "masquerade"
+            },
+            "7002": {
+              "description": "ark hairpin SNAT",
+              "destination": {
+                "address": "10.2.0.71",
+                "group": {
+                  "port-group": "ark"
+                }
+              },
+              "outbound-interface": "eth1",
+              "protocol": "udp",
+              "source": {
+                "group": {
+                  "network-group": "corporate_network"
+                }
+              },
+              "type": "masquerade"
+            }
+          }
+        }
+      }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: system-config
+  namespace: unifi
+data:
+  system.properties: |
+    ## system.properties
+    #
+    # each unifi instance requires a set of ports:
+    #
+    ## device inform
+    # unifi.http.port=8080
+    ## controller UI / API
+    # unifi.https.port=8443
+    ## portal redirect port for HTTP
+    # portal.http.port=8880
+    ## portal redirect port for HTTPs
+    # portal.https.port=8843
+    ## local-bound port for DB server
+    # unifi.db.port=27117
+    ## UDP port used for STUN
+    # unifi.stun.port=3478
+    #
+    ## the IP devices should be talking to for inform
+    # system_ip=a.b.c.d
+    ## disable mongodb journaling
+    # unifi.db.nojournal=false
+    ## extra mongod args
+    # unifi.db.extraargs
+    #
+    ## HTTPS options
+    # unifi.https.ciphers=TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA
+    # unifi.https.sslEnabledProtocols=TLSv1,SSLv2Hello
+    # unifi.https.hsts=false
+    # unifi.https.hsts.max_age=31536000
+    # unifi.https.hsts.preload=false
+    # unifi.https.hsts.subdomain=false
+    #
+    # Ports reserved for device redirector. There is no need to open
+    # firewall for these ports on controller, however do NOT set
+    # controller to use these ports.
+    #
+    # portal.redirector.port=8881
+    # portal.redirector.port.wired=8882
+    #
+    # Port used for throughput measurement.
+    # unifi.throughput.port=6789
+    #
+    #Wed Mar 15 16:15:07 UTC 2023
+    reporter-uuid=b192b671-614e-4443-bc8b-d1b8088aba35
+    unifi.logStdout=true
+    debug.mgmt=warn
+    db.mongo.local=false
+    debug.setting_preference=auto
+    uuid=96376887-94cf-4766-9806-214a9b8c3904
+    db.mongo.uri=mongodb\://unifi-controller-mongodb-headless\:27017/unifi
+    statdb.mongo.uri=mongodb\://unifi-controller-mongodb-headless\:27017/unifi_stat
+    unifi.db.name=unifi
+    debug.device=warn
+    debug.system=warn
+    debug.sdn=warn
+    is_default=false
