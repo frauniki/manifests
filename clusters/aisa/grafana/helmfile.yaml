@@ -5,9 +5,11 @@ repositories:
 releases:
   - name: grafana
     namespace: grafana
+    forceNamespace: grafana
     chart: grafana/grafana
     values:
       - values.yaml
   - name: custom-resource
-    namespace: cert-manager
+    namespace: grafana
+    forceNamespace: grafana
     chart: ./resources

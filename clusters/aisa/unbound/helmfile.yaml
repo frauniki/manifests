@@ -1,0 +1,11 @@
+repositories:
+  - name: frauniki
+    url: https://frauniki.github.io/helm-charts/
+
+releases:
+  - name: unbound
+    namespace: unbound
+    forceNamespace: unbound
+    chart: frauniki/unbound
+    values:
+      - values.yaml
