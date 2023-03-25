@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nas01-nfs
+provisioner: sinoa.jp/nas01-nfs
+parameters:
+  server: nas01.sinoa.jp
+  path: /volumes
+  readOnly: "false"
