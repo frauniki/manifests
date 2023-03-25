@@ -7,5 +7,6 @@ releases:
     namespace: unbound
     forceNamespace: unbound
     chart: frauniki/unbound
+    version: ~2
     values:
       - values.yaml
