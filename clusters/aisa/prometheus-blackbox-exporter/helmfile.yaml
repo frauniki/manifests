@@ -6,6 +6,6 @@ releases:
   - name: prometheus-blackbox-exporter
     namespace: blackbox-exporter
     chart: prometheus-community/prometheus-blackbox-exporter
-    version: 7.1.0
+    version: 8.2.0
     values:
       - values.yaml
