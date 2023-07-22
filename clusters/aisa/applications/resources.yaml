@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: resources
+  namespace: argocd
+spec:
+  project: sinoa
+  source:
+    repoURL: https://github.com/frauniki/manifests
+    targetRevision: HEAD
+    path: clusters/aisa/resources
+  destination:
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
