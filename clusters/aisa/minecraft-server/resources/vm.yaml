@@ -1,0 +1,86 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  labels:
+    kubevirt.io/os: linux
+  name: minecraft-server
+  namespace: minecraft-server
+spec:
+  dataVolumeTemplates:
+    - metadata:
+        name: minecraft-server
+      spec:
+        pvc:
+          accessModes:
+            - ReadWriteOnce
+          volumeMode: Filesystem
+          resources:
+            requests:
+              storage: 50Gi
+          storageClassName: local-path
+        source:
+          pvc:
+            namespace: kubevirt
+            name: ubuntu-2210-40g
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: minecraft-server
+    spec:
+      domain:
+        cpu:
+          cores: 2
+        devices:
+          disks:
+            - disk:
+                bus: virtio
+              name: disk0
+            - cdrom:
+                bus: sata
+                readonly: true
+              name: cloudinitdisk
+        machine:
+          type: q35
+        resources:
+          requests:
+            memory: 8Gi
+          limits:
+            memory: 8Gi
+      volumes:
+        - dataVolume:
+            name: minecraft-server
+          name: disk0
+        - cloudInitNoCloud:
+            networkData: |
+              version: 2
+              ethernets:
+                enp1s0:
+                  dhcp4: true
+            userData: |
+              #cloud-config
+              hostname: minecraft-server
+              user: frauniki
+              ssh_authorized_keys:
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB1sE2WSsklW5XKRlQITfu/U2qMEZJC6liUVANZRMjyD
+          name: cloudinitdisk
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-server
+  namespace: minecraft-server
+spec:
+  type: LoadBalancer
+  selector:
+    kubevirt.io/domain: minecraft-server
+  ports:
+    - name: ssh
+      port: 22
+      targetPort: 22
+    - name: minecraft
+      port: 25565
+      targetPort: 25565
+    - name: dynamap
+      port: 8123
+      targetPort: 8123
