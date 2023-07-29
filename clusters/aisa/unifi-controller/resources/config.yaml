@@ -200,12 +200,12 @@ data:
     # unifi.throughput.port=6789
     #
     #Wed Mar 15 16:15:07 UTC 2023
-    reporter-uuid=b192b671-614e-4443-bc8b-d1b8088aba35
+    reporter-uuid=086a7e93-59b3-4b89-991e-3ec098449a6a
     unifi.logStdout=true
     debug.mgmt=warn
     db.mongo.local=false
     debug.setting_preference=auto
-    uuid=96376887-94cf-4766-9806-214a9b8c3904
+    uuid=4ccff260-8d03-45f8-a03e-bf15190a3013
     db.mongo.uri=mongodb\://unifi-controller-mongodb-headless\:27017/unifi
     statdb.mongo.uri=mongodb\://unifi-controller-mongodb-headless\:27017/unifi_stat
     unifi.db.name=unifi

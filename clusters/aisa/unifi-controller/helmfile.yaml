@@ -22,7 +22,7 @@ releases:
                 - name: unifi-controller
                   volumeMounts:
                     - name: unifi-switch-config
-                      mountPath: /unifi/data/sites/h59iqti5 # /unifi/data/sites/<SITE_ID>
+                      mountPath: /unifi/data/sites/default # /unifi/data/sites/<SITE_ID>
                     - name: system-config
                       mountPath: /unifi/data/system.properties
                       subPath: system.properties
