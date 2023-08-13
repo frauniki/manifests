@@ -1,0 +1,18 @@
+kind: Probe
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: remo-exporter
+  namespace: remo-exporter
+  labels:
+    release: kube-prometheus-stack
+spec:
+  jobName: remo
+  interval: 1m
+  scrapeTimeout: 1m
+  prober:
+    url: remo-exporter.remo-exporter.svc.cluster.local:9352
+    path: /metrics
+  targets:
+    staticConfig:
+      static:
+        - localhost:9090
